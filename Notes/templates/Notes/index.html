@@ -13,13 +13,19 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <style>
+      body {
+        background-color: #232327;
+        color: white;
+      }
+    </style>
     <title>Django CRUD</title>
   </head>
   <body>
     <div id="root">
       <div id="App" class="container">
         <div class="row">
-          <div class="col-11">
+          <div class="col">
             <h1 class="display-1 text-center">{{message}}</h1>
           </div>
         </div>
@@ -54,7 +60,7 @@
           {% for m in messages %}
           <li class="list-group-item hover-list" id="{{m.id}}">
             <div class="row">
-              <div class="col-10">
+              <div class="col">
                 <div class="d-flex justify-content-center">
                   <p class="text-center">
                     <a

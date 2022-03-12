@@ -13,6 +13,12 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <style>
+      body {
+        background-color: #232327;
+        color: white;
+      }
+    </style>
     <title>Django CRUD</title>
   </head>
   <body>
@@ -26,9 +32,7 @@
         <p>{{message.text}}</p>
 
         <button type="button" class="btn btn-success">
-          <a
-            class="link-light"
-            href="http://127.0.0.1:8000/edit/?note={{message.id}}"
+          <a class="link-light" id="edit" href=""
             ><i class="bi bi-pencil"></i
           ></a>
         </button>
@@ -47,6 +51,9 @@
       </div>
     </div>
     <script>
+      document.getElementById(
+        "edit"
+      ).href = `${window.location.origin}/edit/?note={{message.id}}`;
       const del = (e) => {
         fetch("/", {
           method: "DELETE",
