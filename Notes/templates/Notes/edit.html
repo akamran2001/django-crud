@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% load static %}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -13,12 +14,11 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <style>
-      body {
-        background-color: #232327;
-        color: white;
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'Notes/style.css' %}"
+    />
     <title>Django CRUD</title>
   </head>
   <body>
@@ -57,14 +57,14 @@
           </div>
           <br />
           <div>
-            <button type="submit" class="btn btn-primary">Edit</button>
+            <button type="submit" class="btn btn-success">Save</button>
           </div>
         </form>
         <footer
           class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
         >
           <p class="col-md-4 mb-0 text-muted">
-            <a href="/" class="link-primary">Back</a>
+            <a href="{{note_link}}" class="link-primary">Back</a>
           </p>
         </footer>
       </div>
