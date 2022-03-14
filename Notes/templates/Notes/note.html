@@ -25,8 +25,20 @@
     <div id="root">
       <div id="App" class="container">
         <div class="row">
-          <div class="col-11">
+          <div class="col">
             <h1 class="display-1 text-center">{{title}}</h1>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            {% if img_link != "#" %}
+            <img
+              src="{{img_link}}"
+              class="rounded mx-auto d-block"
+              alt="Responsive image"
+            />
+            {% endif %}
           </div>
         </div>
         <div class="text-wrap">

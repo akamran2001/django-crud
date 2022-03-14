@@ -4,11 +4,14 @@ from .models import Message
 
 def index(request):
     if request.method == "POST":
+        files = request.FILES.dict()
         title = request.POST.dict()['title']
         desc = request.POST.dict()['description']
-        Message.objects.create(title=title, text=desc)
-
-    return render(request, 'Notes/index.html', context={'message': 'Shwmae, byd!', 'messages': Message.objects.all()})
+        if 'image' in files:
+            Message.objects.create(title=title, text=desc, image=files['image'])
+        else:
+            Message.objects.create(title=title, text=desc)
+    return render(request, 'Notes/index.html', context={'header': 'Django Notes', 'messages': Message.objects.all()})
 
 
 def edit(request):
@@ -31,7 +34,7 @@ def edit(request):
             desc = Message.objects.filter(id=note_id)[0].text
             note_link = F"{request._get_scheme()}://{request.get_host()}/notes/{note_id}/"
             context = {
-                'message': 'Shwmae, byd!',
+                'header': 'Django Notes',
                 'title': title,
                 "desc": desc,
                 "note_id": note_id,
@@ -49,13 +52,16 @@ def notes(request, id=None):
         except IndexError:
             return redirect("index")
         if request.method == "DELETE":
+            if note.image:
+                note.image.delete()
             note.delete()
             return redirect('index')
         else:
             context = {
                 "title": note.title,
                 "lines": note.text.split("\n"),
-                "edit_link": F"{request._get_scheme()}://{request.get_host()}/edit/?note={id}"
+                "edit_link": F"{request._get_scheme()}://{request.get_host()}/edit/?note={id}",
+                "img_link": "#" if not note.image else note.image.url
             }
             return render(request, 'Notes/note.html', context=context)
     else:

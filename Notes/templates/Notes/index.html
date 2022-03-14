@@ -26,12 +26,12 @@
       <div id="App" class="container">
         <div class="row">
           <div class="col">
-            <h1 class="display-1 text-center">{{message}}</h1>
+            <h1 class="display-1 text-center">{{header}}</h1>
           </div>
         </div>
-        <form action="/" method="POST">
+        <form action="/" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
-          <label for="title">Title</label>
+          <label for="title">Title *</label>
           <div class="input-group mb-3">
             <input
               name="title"
@@ -40,21 +40,36 @@
               row="1"
               value=""
               autocomplete="off"
+              required
             />
           </div>
           <div class="form-group">
-            <label for="description">Description</label>
+            <label for="description">Description *</label>
             <textarea
               class="form-control"
               rows="3"
               name="description"
+              required
             ></textarea>
           </div>
           <br />
+          <div class="mb-3">
+            <label for="id_image" class="form-label"
+              >Add an image (optional)
+            </label>
+            <input
+              class="form-control"
+              type="file"
+              name="image"
+              accept="image/*"
+              id="id_image"
+            />
+          </div>
           <div>
             <button type="submit" class="btn btn-success">Add</button>
           </div>
         </form>
+
         <br />
         <ul class="list-group">
           {% for m in messages %}
@@ -78,15 +93,25 @@
         <footer
           class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
         >
-          <p class="col-md-4 mb-0 text-muted">
+          <h3 class="row text-muted">
             <a
               href="/admin"
-              class="link-primary"
+              class="link-light text-decoration-none"
               target="_blank"
               rel="noopener noreferrer"
-              >Ahmed Kamran</a
-            >
-          </p>
+              ><i class="bi bi-terminal"></i> Admin
+            </a>
+          </h3>
+
+          <h3 class="row text-muted">
+            <a
+              href="/admin"
+              class="link-light text-decoration-none"
+              target="_blank"
+              rel="noopener noreferrer"
+              ><i class="bi bi-github"></i> Source
+            </a>
+          </h3>
         </footer>
       </div>
     </div>
