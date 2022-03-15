@@ -1,3 +1,4 @@
+// Send a delete request when the delete button is clicked
 const del = () => {
   let csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   fetch(`${window.location}`, {

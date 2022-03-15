@@ -1,4 +1,23 @@
+:root {
+  --main-bg-color: #232327;
+}
+
 body {
-  background-color: #232327;
+  background-color: var(--main-bg-color);
   color: white;
+}
+.list-group-item,
+.list-group-item .row,
+.list-group-item .col {
+  background-color: var(--main-bg-color);
+  padding: 0;
+}
+.list-group-item .row {
+  margin-bottom: 1em;
+}
+.card {
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: scale(1.05);
 }

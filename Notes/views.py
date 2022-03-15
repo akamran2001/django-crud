@@ -5,8 +5,9 @@ from .models import Message
 def index(request):
     if request.method == "POST":
         files = request.FILES.dict()
-        title = request.POST.dict()['title']
-        desc = request.POST.dict()['description']
+        req = request.POST.dict()
+        title = req['title']
+        desc = req['description']
         if 'image' in files:
             Message.objects.create(title=title, text=desc, image=files['image'])
         else:
@@ -17,21 +18,31 @@ def index(request):
 def edit(request):
 
     if request.method == "POST":
-        query = request.POST.dict()
-        note_id = query['note_id']
-        title = query['title']
-        desc = query['description']
+        files = request.FILES.dict()
+        req = request.POST.dict()
+        note_id = req['note_id']
+        title = req['title']
+        desc = req['description']
         obj = Message.objects.filter(id=note_id)[0]
         obj.title = title
         obj.text = desc
+        if 'image' in files:
+            obj.image.delete()
+            obj.image = files['image']
         obj.save()
-
-    if request.method == "GET":
-        query = request.GET.dict()
-        if 'note' in query:
-            note_id = query['note']
-            title = Message.objects.filter(id=note_id)[0].title
-            desc = Message.objects.filter(id=note_id)[0].text
+        return redirect('notes', id=note_id)
+    else:
+        # Get Request
+        req = request.GET.dict()
+        if 'note' in req:
+            note_id = req['note']
+            note = ""
+            try:
+                note = Message.objects.filter(id=note_id)[0]
+            except IndexError:
+                return redirect('index')
+            title = note.title
+            desc = note.text
             note_link = F"{request._get_scheme()}://{request.get_host()}/notes/{note_id}/"
             context = {
                 'header': 'Django Notes',
@@ -41,8 +52,8 @@ def edit(request):
                 "note_link": note_link
             }
             return render(request, 'Notes/edit.html', context=context)
-
-    return redirect('index')
+        else:
+            return redirect('index')
 
 
 def notes(request, id=None):
