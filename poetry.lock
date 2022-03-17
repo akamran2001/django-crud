@@ -39,6 +39,20 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "gunicorn"
+version = "20.1.0"
+description = "WSGI HTTP Server for UNIX"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.extras]
+eventlet = ["eventlet (>=0.24.1)"]
+gevent = ["gevent (>=1.4.0)"]
+setproctitle = ["setproctitle"]
+tornado = ["tornado (>=0.2)"]
+
+[[package]]
 name = "pillow"
 version = "8.4.0"
 description = "Python Imaging Library (Fork)"
@@ -70,10 +84,21 @@ category = "main"
 optional = false
 python-versions = ">=2"
 
+[[package]]
+name = "whitenoise"
+version = "6.0.0"
+description = "Radically simplified static file serving for WSGI applications"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+brotli = ["brotli"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "03edb36898572d2fc5470a9aaf3599776fe7672fb870c4246d8ec9eb018bd9f3"
+content-hash = "9866f71c01e6e24b959f6ec922eec4c1dee92990a09d1c7872fc1b12e9ebe4df"
 
 [metadata.files]
 asgiref = [
@@ -101,6 +126,10 @@ asgiref = [
 django = [
     {file = "Django-4.0.3-py3-none-any.whl", hash = "sha256:1239218849e922033a35d2a2f777cb8bee18bd725416744074f455f34ff50d0c"},
     {file = "Django-4.0.3.tar.gz", hash = "sha256:77ff2e7050e3324c9b67e29b6707754566f58514112a9ac73310f60cd5261930"},
+]
+gunicorn = [
+    {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
+    {file = "gunicorn-20.1.0.tar.gz", hash = "sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8"},
 ]
 pillow = [
     {file = "Pillow-8.4.0-cp310-cp310-macosx_10_10_universal2.whl", hash = "sha256:81f8d5c81e483a9442d72d182e1fb6dcb9723f289a57e8030811bac9ea3fef8d"},
@@ -187,4 +216,8 @@ sqlparse = [
 tzdata = [
     {file = "tzdata-2021.5-py2.py3-none-any.whl", hash = "sha256:3eee491e22ebfe1e5cfcc97a4137cd70f092ce59144d81f8924a844de05ba8f5"},
     {file = "tzdata-2021.5.tar.gz", hash = "sha256:68dbe41afd01b867894bbdfd54fa03f468cfa4f0086bfb4adcd8de8f24f3ee21"},
+]
+whitenoise = [
+    {file = "whitenoise-6.0.0-py3-none-any.whl", hash = "sha256:5a4aff543ee860fbe40d743e556adf92ccd41b7df45697cae074afdf657056b9"},
+    {file = "whitenoise-6.0.0.tar.gz", hash = "sha256:08c42bc535f9777eea1a599289d9433f081921f97887eaf6f559446b2a080374"},
 ]
