@@ -13,7 +13,7 @@ import tornado.web
 import tornado_asgi_handler
 import CRUD.asgi
 
-define('port', type=int, default=8080)
+PORT = 8080
 
 
 class HelloHandler(tornado.web.RequestHandler):
@@ -34,10 +34,11 @@ def main():
         ])
 
     server = tornado.httpserver.HTTPServer(tornado_app)
-    server.listen(options.port)
+    server.listen(PORT)
 
     tornado.ioloop.IOLoop.instance().start()
 
 
 if __name__ == '__main__':
+    print(F"Application running on http://localhost:{PORT}/")
     main()
