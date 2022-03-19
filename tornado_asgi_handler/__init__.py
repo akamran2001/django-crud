@@ -1,9 +1,15 @@
+
 from tornado.web import RequestHandler
 
 GLOBAL_CHARSET = "utf-8"
 
 
 class AsgiHandler(RequestHandler):
+
+    '''
+        Credit to @plter on GitHub for the ASGI Handler
+        https://github.com/plter/tornado_asgi_handler
+    '''
 
     def initialize(self, asgi_app) -> None:
         super().initialize()
