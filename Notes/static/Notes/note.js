@@ -2,8 +2,9 @@
 const del = () => {
   let csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   fetch(`${window.location}`, {
-    method: "DELETE",
+    method: "POST",
     headers: { "X-CSRFToken": csrftoken },
+    body: "DELETE",
     mode: "same-origin",
   }).then((res) => {
     window.location.replace(res.url);

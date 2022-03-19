@@ -1,27 +1,43 @@
+#!/usr/bin/env python
+#
+# Runs a Tornado web server with a django project
+# Make sure to edit the DJANGO_SETTINGS_MODULE to point to your settings.py
+#
+
+
 import os
-import socket
-import subprocess
-import http.server
-import socketserver
-from CRUD.settings import DEBUG
+from tornado.options import options, define, parse_command_line
+import tornado.httpserver
+import tornado.ioloop
+import tornado.web
+import tornado_asgi_handler
+import CRUD.asgi
 
-HOST = socket.gethostbyname(socket.gethostname())
-PORT = 8080
-DIRECTORY = "media/"
-
-class Handler(http.server.SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=DIRECTORY, **kwargs)
-
-if(DEBUG):
-    os.system("python manage.py runserver")
-else:
-    gu = subprocess.Popen("gunicorn -b 0.0.0.0 CRUD.wsgi", shell=True)
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print(F"http://{HOST}:{PORT}/")
-        httpd.serve_forever()
-    
+define('port', type=int, default=8080)
 
 
+class HelloHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write('Hello from tornado')
 
 
+def main():
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'CRUD.settings'
+    parse_command_line()
+    asgi_app = CRUD.asgi.application
+
+    tornado_app = tornado.web.Application(
+        [
+            ("/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static'}),  # Serve Static Files
+            ("/media/(.*)", tornado.web.StaticFileHandler, {'path': 'media'}),  # Serve Media Files
+            ('.*', tornado_asgi_handler.AsgiHandler, dict(asgi_app=asgi_app)),  # Serve Django Application
+        ])
+
+    server = tornado.httpserver.HTTPServer(tornado_app)
+    server.listen(options.port)
+
+    tornado.ioloop.IOLoop.instance().start()
+
+
+if __name__ == '__main__':
+    main()
