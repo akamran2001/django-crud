@@ -4,7 +4,6 @@
 # Make sure to edit the DJANGO_SETTINGS_MODULE to point to your settings.py
 #
 
-import os
 import tornado.httpserver
 from tornado.options import parse_command_line
 import tornado.ioloop
@@ -15,7 +14,6 @@ PORT = 8080
 
 
 def main():
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'CRUD.settings'
     asgi_app = CRUD.asgi.application
     parse_command_line()
     tornado_app = web.Application(
