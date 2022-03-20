@@ -6,6 +6,7 @@
 
 import os
 import tornado.httpserver
+from tornado.options import parse_command_line
 import tornado.ioloop
 import web
 import CRUD.asgi
@@ -16,6 +17,7 @@ PORT = 8080
 def main():
     os.environ['DJANGO_SETTINGS_MODULE'] = 'CRUD.settings'
     asgi_app = CRUD.asgi.application
+    parse_command_line()
     tornado_app = web.Application(
         [
             ("/static/(.*)", web.StaticFileHandler, {'path': 'static'}),  # Serve Static Files
@@ -24,7 +26,7 @@ def main():
         ])
     server = tornado.httpserver.HTTPServer(tornado_app)
     server.listen(PORT)
-    tornado.ioloop.IOLoop.instance().start()
+    tornado.ioloop.IOLoop.current().start()
 
 
 if __name__ == '__main__':
