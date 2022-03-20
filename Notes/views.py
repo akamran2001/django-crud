@@ -62,10 +62,7 @@ def notes(request, id=None):
             note = Message.objects.filter(id=id)[0]
         except IndexError:
             return redirect("index")
-        if request.method == "POST" and request.body == b"DELETE":
-            '''
-                USING POST REQUEST FOR DELETION BECAUSE TORNADO SERVER FAILING TO HANDLE DELETE REQUEST
-            '''
+        if request.method == "DELETE":
             if note.image:
                 note.image.delete()
             note.delete()

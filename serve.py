@@ -71,6 +71,9 @@ class AsgiHandler(tornado.web.RequestHandler):
     async def post(self):
         await self.handle_request()
 
+    async def delete(self):
+        await self.handle_request()
+
 
 def main():
     asgi_app = CRUD.asgi.application
