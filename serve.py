@@ -7,8 +7,7 @@
 import os
 import tornado.httpserver
 import tornado.ioloop
-import tornado.web
-import tornado_asgi_handler
+import web
 import CRUD.asgi
 
 PORT = 8080
@@ -17,11 +16,11 @@ PORT = 8080
 def main():
     os.environ['DJANGO_SETTINGS_MODULE'] = 'CRUD.settings'
     asgi_app = CRUD.asgi.application
-    tornado_app = tornado.web.Application(
+    tornado_app = web.Application(
         [
-            ("/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static'}),  # Serve Static Files
-            ("/media/(.*)", tornado.web.StaticFileHandler, {'path': 'media'}),  # Serve Media Files
-            ('.*', tornado_asgi_handler.AsgiHandler, dict(asgi_app=asgi_app)),  # Serve Django Application
+            ("/static/(.*)", web.StaticFileHandler, {'path': 'static'}),  # Serve Static Files
+            ("/media/(.*)", web.StaticFileHandler, {'path': 'media'}),  # Serve Media Files
+            ('.*', web.AsgiHandler, dict(asgi_app=asgi_app)),  # Serve Django Application
         ])
     server = tornado.httpserver.HTTPServer(tornado_app)
     server.listen(PORT)
