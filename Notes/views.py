@@ -1,3 +1,4 @@
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from .models import Message
 
@@ -37,10 +38,7 @@ def edit(request):
         if 'note' in req:
             note_id = req['note']
             note = ""
-            try:
-                note = Message.objects.filter(id=note_id)[0]
-            except IndexError:
-                return redirect('index')
+            note = Message.objects.filter(id=note_id)[0]
             title = note.title
             desc = note.text
             note_link = F"{request._get_scheme()}://{request.get_host()}/notes/{note_id}/"
@@ -58,10 +56,7 @@ def edit(request):
 
 def notes(request, id=None):
     if(id):
-        try:
-            note = Message.objects.filter(id=id)[0]
-        except IndexError:
-            return redirect("index")
+        note = Message.objects.filter(id=id)[0]
         if request.method == "DELETE":
             if note.image:
                 note.image.delete()
@@ -76,4 +71,4 @@ def notes(request, id=None):
             }
             return render(request, 'Notes/note.html', context=context)
     else:
-        return redirect("index")
+        return redirect('index')

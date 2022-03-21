@@ -73,13 +73,27 @@ class AsgiHandler(tornado.web.RequestHandler):
         await self.handle_request()
 
 
+class StaticFileHandler_Error(tornado.web.StaticFileHandler):
+    '''
+        Static file handler with error pages
+    '''
+
+    def write_error(self, status_code, **kwargs):
+        if status_code == 404:
+            self.render('Notes/templates/404.html')
+        elif status_code == 403:
+            self.render('Notes/templates/403.html')
+        else:
+            self.render('Notes/templates/500.html')
+
+
 def main():
     asgi_app = CRUD.asgi.application
     parse_command_line()
     tornado_app = tornado.web.Application(
         [
-            ("/static/(.*)", tornado.web.StaticFileHandler, {'path': 'static'}),  # Serve Static Files
-            ("/media/(.*)", tornado.web.StaticFileHandler, {'path': 'media'}),  # Serve Media Files
+            ("/static/(.*)", StaticFileHandler_Error, {'path': 'static'}),  # Serve Static Files
+            ("/media/(.*)", StaticFileHandler_Error, {'path': 'media'}),  # Serve Media Files
             ('.*', AsgiHandler, dict(asgi_app=asgi_app)),  # Serve Django Application
         ])
     server = tornado.httpserver.HTTPServer(tornado_app)
