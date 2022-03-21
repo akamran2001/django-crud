@@ -49,8 +49,6 @@ class AsgiHandler(tornado.web.RequestHandler):
             if data['type'] == 'http.response.start':
                 self.set_status(data['status'])
                 self.clear_header("content-type")
-                self.clear_header("server")
-                self.clear_header("date")
                 for h in data['headers']:
                     if len(h) == 2:
                         self.add_header(
