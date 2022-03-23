@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-wdcvbtau-)$y1nzs$r5rg1denj@h3!$e)x*%s+twwv&)w9&*iq
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://django-crud.ahmedkamran.repl.co']
+CSRF_TRUSTED_ORIGINS = ['https://django-crud.ahmedkamran.repl.co', 'https://django-crud-akamran.herokuapp.com']
 X_FRAME_OPTIONS = '*'
 
 # Application definition
