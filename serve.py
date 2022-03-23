@@ -5,12 +5,12 @@
 #
 
 import tornado.httpserver
-from tornado.options import parse_command_line
+from tornado.options import parse_command_line, define, options
 import tornado.ioloop
 import tornado.web
 import CRUD.asgi
 
-PORT = 8080
+define("port", default=8000, help="run on the given port", type=int)
 GLOBAL_CHARSET = "utf-8"
 
 
@@ -97,10 +97,10 @@ def main():
             ('.*', AsgiHandler, dict(asgi_app=asgi_app)),  # Serve Django Application
         ])
     server = tornado.httpserver.HTTPServer(tornado_app)
-    server.listen(PORT)
+    server.listen(options.port)
+    print(F"Application running on http://localhost:{options.port}/")
     tornado.ioloop.IOLoop.current().start()
 
 
 if __name__ == '__main__':
-    print(F"Application running on http://localhost:{PORT}/")
     main()
