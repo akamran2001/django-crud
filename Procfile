@@ -1,1 +1,1 @@
-web: python serve.py --PORT=$PORT
+web: python serve.py --port=$PORT
