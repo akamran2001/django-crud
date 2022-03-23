@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
 from .models import Message
 
 
@@ -9,15 +10,16 @@ def index(request):
         req = request.POST.dict()
         title = req['title']
         desc = req['description']
+        m = 0
         if 'image' in files:
-            Message.objects.create(title=title, text=desc, image=files['image'])
+            m = Message.objects.create(title=title, text=desc, image=files['image'])
         else:
-            Message.objects.create(title=title, text=desc)
+            m = Message.objects.create(title=title, text=desc)
+        return redirect(F"{request._get_scheme()}://{request.get_host()}/notes/{m.id}/")
     return render(request, 'Notes/index.html', context={'header': 'Django Notes', 'messages': Message.objects.all()})
 
 
 def edit(request):
-
     if request.method == "POST":
         files = request.FILES.dict()
         req = request.POST.dict()
