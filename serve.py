@@ -4,13 +4,13 @@
 # Make sure to edit the DJANGO_SETTINGS_MODULE to point to your settings.py
 #
 
+import sys
 import tornado.httpserver
-from tornado.options import parse_command_line, define, options
+from tornado.options import parse_command_line
 import tornado.ioloop
 import tornado.web
 import CRUD.asgi
 
-define("port", default=8000, help="run on the given port", type=int)
 GLOBAL_CHARSET = "utf-8"
 
 
@@ -97,8 +97,9 @@ def main():
             ('.*', AsgiHandler, dict(asgi_app=asgi_app)),  # Serve Django Application
         ])
     server = tornado.httpserver.HTTPServer(tornado_app)
-    server.listen(options.port)
-    print(F"Application running on http://localhost:{options.port}/")
+    port = 8080 if len(sys.argv) != 2 else int(sys.argv[1])
+    server.listen(port)
+    print(F"Application running on http://localhost:{port}/")
     tornado.ioloop.IOLoop.current().start()
 
 
